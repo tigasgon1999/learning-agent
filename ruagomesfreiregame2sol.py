@@ -18,8 +18,8 @@ class LearningAgent:
         # initialize Q-table
         self.Q = [[0 for i in range(nA)] for j in range(nS)]
         self.epsilon = 1
-        self.alpha = 1
-        self.gamma = 1
+        self.alpha = 0.4
+        self.gamma = 0.5
         self.moveCounter = 0
 
     # Select one action, used when learning
@@ -31,19 +31,19 @@ class LearningAgent:
     def selectactiontolearn(self, st, aa):
         # define this function
         # print("select one action to learn better")
-        # max(Q[st][a]) para todos os A
         self.moveCounter += 1
-        self.epsilon = 1/self.moveCounter
+        self.epsilon = 0.4
         a = -1
-        if random.random() < 1/self.moveCounter:
-            return aa[random.randrange(0, len(aa))]
+        if random.random() < self.epsilon:
+            return random.randrange(0, len(aa))
         else:
             # TODO: change this to numpy.max
             bestQ = -math.inf
-            for act in aa:
+            for act in range(len(aa)):
                 q = self.Q[st][act]
                 if q > bestQ:
-                    a = q
+                    bestQ = q
+                    a = act
         return a
 
     # Select one action, used when evaluating
@@ -53,8 +53,16 @@ class LearningAgent:
     # returns
     # a - the index to the action in aa
     def selectactiontoexecute(self, st, aa):
+        self.moveCounter = 0
+        self.moveCounter += 1
         # define this function
-        a = 0
+        a = -1
+        bestQ = -math.inf
+        for act in range(len(aa)):
+            q = self.Q[st][act]
+            if q > bestQ:
+                bestQ = q
+                a = act
         # print("select one action to see if I learned")
         return a
 
@@ -66,6 +74,15 @@ class LearningAgent:
     def learn(self, ost, nst, a, r):
         # define this function
         #print("learn something from this data")
-        
+        # print("Move:", self.moveCounter)        
+        #self.alpha = 60/(59+self.moveCounter)
+        bestNextQ = -math.inf
+        for q in self.Q[nst]:
+            if q > bestNextQ:
+                bestNextQ = q
+
+        qTarget = r + self.gamma*bestNextQ
+        qDelta = qTarget - self.Q[ost][a]
+        self.Q[ost][a] += self.alpha*qDelta
 
         return
