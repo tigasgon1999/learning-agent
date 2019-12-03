@@ -6,8 +6,11 @@ import matplotlib.pyplot as plt
 # ax.xaxis.set_visible(False)
 # ax.yaxis.set_visible(False)
 
+showing = False
+
 
 def showTable(q):
+    global showing
     fig, ax = plt.subplots()
     fig.patch.set_visible(False)
     ax.axis('off')
@@ -15,7 +18,9 @@ def showTable(q):
     cols = [i for i in range(len(q[0]))]
     plt.table(cellText=q, rowLabels=labels, colLabels=cols, loc='center')
     plt.pause(0.05)
-    plt.show()
+    if not showing:
+        plt.show()
+        showing = True
 
 
 saved = False
@@ -29,9 +34,8 @@ def saveTable(q):
 
     for st in q:
         for a in st:
-            f.write("%d," % a)
+            f.write("%f," % a)
         f.write("\n")
 
     f.close()
     saved = True
-

@@ -2,6 +2,7 @@ import pickle
 import random
 import matplotlib.pyplot as plt
 from ruagomesfreiregame2sol import *
+import visualizer as vis
 
 
 def runagent(A, T, R, I=1, learningphase=True, nlearn=1000, ntest=100):
@@ -68,12 +69,12 @@ for nrep in range(0, NREP):
     runagent(A, T, R, I=1, learningphase=True, nlearn=500)
     print("# testing phase")
     # in this phase your agent will execute what it learned in the world
-    # the total reward obtained needs to be the optimal
+    # the total reward obtained needs to be the optimal   
     Jn = runagent(A, T, R, I=1, learningphase=False, ntest=10)
     val[0] += Jn
-    print("average reward", Jn)
+    print("average reward", Jn)    
     print("# 2nd learning phase")
-    runagent(A, T, R, I=1, learningphase=True, nlearn=10000)
+    runagent(A, T, R, I=1, learningphase=True, nlearn=10000)        
     print("# testing phase")
     Jn = runagent(A, T, R, I=1, learningphase=False, ntest=10)
     val[1] += Jn
@@ -97,6 +98,7 @@ for nrep in range(0, NREP):
     print("# testing phase")
     # in this phase your agent will execute what it learned in the world
     # the total reward obtained needs to be the optimal
+    # vis.saveTable(A.getQ())
     Jn = runagent(A, T, R, I=1, learningphase=False, ntest=10)
     val[2] += Jn
     print("average reward", Jn)
