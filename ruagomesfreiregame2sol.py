@@ -1,3 +1,5 @@
+# Joao Porto 89472 ; Tiago Le 89550 ; Grupo 24
+
 import random
 import math
 import numpy as np
@@ -30,16 +32,10 @@ class LearningAgent:
     # for a given state they are always given in the same order
     # returns
     # a - the index to the action in aa
-
     def selectactiontolearn(self, st, aa):
-        # define this function
         # print("select one action to learn better")
-        # self.moveCounter += 1
-        # self.moveCounter += 1
-        # if not (self.moveCounter % 15):
-        #     self.epsilon *= 1.2
 
-        if self.statePlayNum[st] is -1:
+        if self.statePlayNum[st] == -1:
             self.statePlayNum[st] = len(aa)
 
         a = -1
